@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import _ from 'lodash';
 
-const TONE_REGEX = /([aeiouAEIOU][1234])/;
+const TONE_REGEX = /([aeiouAEIOU][1234])/g;
 
 const TONE_MAPPING = {
   "a1": "ā",
@@ -56,9 +57,27 @@ const TONE_MAPPING = {
 
 export default Ember.Component.extend({
   classNames: ['stretch'],
+
+  setSelection(elm, start, end) {
+    elm.selectionStart = start;
+    elm.selectionEnd = end;
+  },
+
   actions: {
     processChange(str) {
-      this.set("model.pinyin", str.replace(TONE_REGEX, match => TONE_MAPPING[match]));
+      const editor = this.$(".pinyinEditor")[0];
+      let cursorPosition = editor.selectionStart;
+      let newStr = str;
+      const matches = str.match(TONE_REGEX);
+
+      if(!_.isEmpty(matches)) {
+        newStr = str.replace(TONE_REGEX, match => TONE_MAPPING[match]);
+        cursorPosition = cursorPosition - matches.length;
+      }
+
+      this.set("model.pinyin", newStr);
+
+      Ember.run.scheduleOnce('afterRender', this, this.setSelection, editor, cursorPosition, cursorPosition);
     }
   }
 });

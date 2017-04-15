@@ -5,27 +5,37 @@
 </header>
 
 <div class="row fieldsContainer">
-  {{one-way-textarea model.chinese
-      update=(action (mut model.chinese))
-      onblur=(action saveModel model)
-      autocomplete="off"
-      autocorrect="off"
-      autocapitalize="off"
-      spellcheck=false}}
+  <div class="col inputContainer">
+    <div class="title row">汉语</div>
+    {{one-way-textarea model.chinese
+        update=(action (mut model.chinese))
+        onblur=(action saveModel model)
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck=false}}
+  </div>
 
-  {{one-way-textarea model.pinyin
-      update=(action 'processChange')
-      onblur=(action saveModel model)
-      autocomplete="off"
-      autocorrect="off"
-      autocapitalize="off"
-      spellcheck=false}}
+  <div class="col inputContainer">
+    <div class="title row">Pinyin</div>
+    {{one-way-textarea model.pinyin
+        class="pinyinEditor"
+        update=(action 'processChange')
+        onblur=(action saveModel model)
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck=false}}
+  </div>
 
-  {{one-way-textarea model.english
-      update=(action (mut model.english))
-      onblur=(action saveModel model)
-      autocomplete="off"
-      autocorrect="off"
-      autocapitalize="off"
-      spellcheck=false}}
+  <div class="col inputContainer">
+    <div class="title row">English</div>
+    {{one-way-textarea model.english
+        update=(action (mut model.english))
+        onblur=(action saveModel model)
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck=false}}
+  </div>
 </div>
