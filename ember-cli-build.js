@@ -1,9 +1,43 @@
-/* eslint-env node */
-const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+/*jshint node:true*/
+/* global require, module */
+var EmberApp = require('ember-cli/lib/broccoli/ember-app');
+var rupture =  require('rupture');
+var lost = require('lost');
+var rucksack = require('rucksack-css');
+var poststylus = require('poststylus');
 
 module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
-    // Add options here
+    babel: {
+      optional: ['es7.decorators', 'es7.functionBind']
+    },
+    'ember-cli-babel': {
+      includePolyfill: true
+    },
+    stylusOptions: {
+      use: [
+        rupture(),
+        poststylus([
+          lost(),
+          rucksack({ autoprefixer: true })
+        ])
+      ]
+    },
+    fingerprint: {
+      exclude: [
+        'apple-touch-icon',
+        'favicon',
+        'mstile',
+        'images/layers-2x.png',
+        'images/layers.png',
+        'images/marker-icon-2x.png',
+        'images/marker-icon.png',
+        'images/marker-shadow.png'
+      ]
+    },
+    dotEnv: {
+      clientAllowedKeys: ['API_KEY', 'AUTH_DOMAIN', 'DATABASE_URL', 'STORAGE_BUCKET']
+    }
   });
 
   // Use `app.import` to add additional libraries to the generated
