@@ -1,0 +1,10 @@
+<div class="col center flashCardContainer">
+  {{#each sortedFlashCards as |flashCard index|}}
+    {{flash-card
+        model=flashCard
+        index=(inc index)
+        saveModel=(route-action 'saveModel')}}
+  {{/each}}
+
+  <button type="button" name="button" {{action (route-action 'createFlashCard' model)}}>Create</button>
+</div>

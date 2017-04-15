@@ -1,0 +1,48 @@
+&
+  background: #FFB928
+  color: #2E282A
+  margin-bottom: 1em
+  border: 5px solid rgba(black, 0.25)
+  max-width: 80em
+
+&:nth-child(odd)
+  background: rgba(#59B5C1, 0.5)
+
+textarea
+  resize: none
+  width: 100%
+  margin-right: 1em
+  padding: 0.2em
+  font-size: 1.5em
+  border: 5px solid rgba(black, 0.25)
+
+  +below(950px)
+    font-size: 1.4em
+  +below(900px)
+    font-size: 1.3em
+  +below(850px)
+    font-size: 1.2em
+  +below(800px)
+    font-size: 1.1em
+  +below(750px)
+    font-size: 1em
+  +below(700px)
+    margin: 0.25em 0
+    font-size: 1.4em
+    width: calc(100% - 10px - 0.2em)
+
+textarea:last-child
+  margin-right: 0
+
+.fieldsContainer
+  margin: 1em
+
+  +below(700px)
+    flex-direction: column
+
+header
+  background: rgba(white, 0.5)
+  padding: 0.5em
+  .index
+    margin-left: 1em
+    font-size: 1.5em
