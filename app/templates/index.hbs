@@ -1,1 +1,15 @@
-<button type="button" name="button" {{action (route-action 'createSession')}}>Create Session</button>
+<div class="row stretch center">
+  <div class="col center landingContainer">
+    <div class="col hero">
+      <h1>Welcome to Pin</h1>
+      <h2>Start a new lesson but clicking below. Then you can share the link with a student.</h2>
+    </div>
+
+    <div class="row uiContainer">
+      {{ui/icon-button
+          label="Start Lesson"
+          click=(route-action "createSession")
+          leftIcon="plus"}}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<div class="row content center">  
+  {{#if hasLeftIcon}}
+    <div class="iconContainer row">
+      {{fa-icon leftIcon}}
+    </div>
+  {{/if}}
+
+  {{#if (and hasLabel hasLeftIcon)}}
+    <div class="spacer"></div>
+  {{/if}}
+
+  {{#if hasLabel}}
+    <span class="label">{{label}}</span>
+  {{/if}}
+
+  {{#if (and hasLabel hasRightIcon)}}
+    <div class="spacer"></div>
+  {{/if}}
+
+  {{#if hasRightIcon}}
+    <div class="iconContainer row">
+      {{fa-icon rightIcon}}
+    </div>
+  {{/if}}
+</div>

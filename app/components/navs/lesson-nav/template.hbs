@@ -1,0 +1,20 @@
+<div class="uiContainer">
+  <div class="row leftContainer">
+    {{ui/icon-button
+        label="Home"
+        click=navigateHome
+        leftIcon="arrow-left"}}
+
+    {{#copy-button
+      clipboardText=shareLink}}
+      {{ui/icon-button
+          label="Copy share link"
+          rightIcon="clipboard"}}
+    {{/copy-button}}
+  </div>
+
+  {{ui/icon-button
+      label="Create Flashcard"
+      rightIcon="plus"
+      click=createFlashCard}}
+</div>

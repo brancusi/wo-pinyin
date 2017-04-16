@@ -1,10 +1,17 @@
-<div class="col center flashCardContainer">
-  {{#each sortedFlashCards as |flashCard index|}}
-    {{flash-card
-        model=flashCard
-        index=(inc index)
-        saveModel=(route-action 'saveModel')}}
-  {{/each}}
+{{navs/lesson-nav
+    shareLink=shareLink
+    navigateHome=(route-action "navigateHome")
+    createFlashCard=(route-action "createFlashCard" session)}}
 
-  <button type="button" name="button" {{action (route-action 'createFlashCard' model)}}>Create</button>
+  <div class="col center flashCardContainer">
+    {{#if hasFlashCards}}
+      {{#each sortedFlashCards as |flashCard index|}}
+        {{flash-card
+            model=flashCard
+            index=(inc index)
+            saveModel=(route-action 'saveModel')}}
+      {{/each}}
+    {{else}}
+      <h2>No flash cards yet. Why not create one?</h2>
+    {{/if}}
 </div>
