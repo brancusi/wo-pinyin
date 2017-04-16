@@ -8,7 +8,8 @@
       {{#each sortedFlashCards as |flashCard index|}}
         {{flash-card
             model=flashCard
-            index=(inc index)
+            total=cardCount
+            index=index
             saveModel=(route-action 'saveModel')}}
       {{/each}}
     {{else}}

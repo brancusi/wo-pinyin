@@ -1,11 +1,12 @@
 import Ember from 'ember';
 import computed from 'ember-computed-decorators';
 
-const { isPresent } = Ember;
+const { isPresent, computed: { alias, sort } } = Ember;
 
 export default Ember.Controller.extend({
-  timestampSorting: ['ts'],
-  sortedFlashCards: Ember.computed.sort('session.flashCards', 'timestampSorting'),
+  timestampSorting: ['ts:desc'],
+  sortedFlashCards: sort('session.flashCards', 'timestampSorting'),
+  cardCount: alias("sortedFlashCards.length"),
 
   @computed("sortedFlashCards")
   hasFlashCards(collection) {

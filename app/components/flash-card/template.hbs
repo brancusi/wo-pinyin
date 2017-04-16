@@ -1,6 +1,6 @@
 <header>
   <div class="index">
-    {{index}}.
+    {{position}}.
   </div>
 </header>
 
@@ -8,8 +8,7 @@
   <div class="col inputContainer">
     <div class="title row">汉语</div>
     {{one-way-textarea model.chinese
-        update=(action (mut model.chinese))
-        onblur=(action saveModel model)
+        update=(action "handleUpdate" "chinese")
         autocomplete="off"
         autocorrect="off"
         autocapitalize="off"
@@ -21,7 +20,6 @@
     {{one-way-textarea model.pinyin
         class="pinyinEditor"
         update=(action 'processChange')
-        onblur=(action saveModel model)
         autocomplete="off"
         autocorrect="off"
         autocapitalize="off"
@@ -31,8 +29,7 @@
   <div class="col inputContainer">
     <div class="title row">English</div>
     {{one-way-textarea model.english
-        update=(action (mut model.english))
-        onblur=(action saveModel model)
+        update=(action "handleUpdate" "english")
         autocomplete="off"
         autocorrect="off"
         autocapitalize="off"

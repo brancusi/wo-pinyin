@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import _ from 'lodash';
+import computed from 'ember-computed-decorators';
 
 const TONE_REGEX = /([aeiouAEIOU][1234])/g;
 
@@ -58,6 +59,11 @@ const TONE_MAPPING = {
 export default Ember.Component.extend({
   classNames: ['stretch'],
 
+  @computed('total', 'index')
+  position(total, index) {
+    return total - index;
+  },
+
   setSelection(elm, start, end) {
     elm.selectionStart = start;
     elm.selectionEnd = end;
@@ -77,7 +83,14 @@ export default Ember.Component.extend({
 
       this.set("model.pinyin", newStr);
 
+      this.get("saveModel")(this.get("model"));
+
       Ember.run.scheduleOnce('afterRender', this, this.setSelection, editor, cursorPosition, cursorPosition);
+    },
+
+    handleUpdate(key, str) {
+      this.get("model").set(key, str);
+      this.get("saveModel")(this.get("model"));
     }
   }
 });
