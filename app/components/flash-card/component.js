@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import _ from 'lodash';
 import computed from 'ember-computed-decorators';
+import firebase from 'firebase';
 
 const TONE_REGEX = /([aeiouAEIOU][1234])/g;
 
@@ -56,13 +57,21 @@ const TONE_MAPPING = {
   "U4": "Ù"
 };
 
+const {
+  computed: { notEmpty }
+} = Ember;
+
 export default Ember.Component.extend({
   classNames: ['stretch'],
+
+  hifi: Ember.inject.service(),
 
   @computed('total', 'index')
   position(total, index) {
     return total - index;
   },
+
+  hasAudio: notEmpty('model.audioUrl'),
 
   setSelection(elm, start, end) {
     elm.selectionStart = start;
@@ -91,6 +100,16 @@ export default Ember.Component.extend({
     handleUpdate(key, str) {
       this.get("model").set(key, str);
       this.get("saveModel")(this.get("model"));
+    },
+
+    play() {
+      const app = firebase.app();
+      var storageRef = app.storage().ref();
+      var audioRef = storageRef.child(this.get('model.audioUrl'));
+
+      audioRef
+        .getDownloadURL()
+        .then(url => this.get("hifi").play(url));
     }
   }
 });

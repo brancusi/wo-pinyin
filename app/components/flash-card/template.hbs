@@ -36,3 +36,17 @@
         spellcheck=false}}
   </div>
 </div>
+
+<hr>
+
+<div class="audioUiContainer row right">
+  {{audio-recorder
+      created=onAudioCreated}}
+
+  {{#if hasAudio}}
+    {{ui/icon-button
+        label="Play"
+        click=(action "play")
+        leftIcon="play"}}
+  {{/if}}
+</div>

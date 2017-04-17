@@ -1,4 +1,6 @@
 import Ember from 'ember';
+import firebase from 'firebase';
+import { v4 as uuid } from 'uuid';
 
 export default Ember.Route.extend({
   setupController(controller, model) {
@@ -24,6 +26,20 @@ export default Ember.Route.extend({
   },
 
   actions: {
+    onAudioCreated(model, blob) {
+      const app = firebase.app();
+      var storageRef = app.storage().ref();
+      const id = uuid();
+
+      const path = `audio/${id}.wav`;
+      var audioRef = storageRef.child(path);
+
+      audioRef.put(blob).then(snapshot => {
+        model.set("audioUrl", path);
+        model.save();
+      });
+    },
+
     navigateHome() {
       this.transitionTo("index");
     },

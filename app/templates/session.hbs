@@ -10,6 +10,7 @@
             model=flashCard
             total=cardCount
             index=index
+            onAudioCreated=(route-action 'onAudioCreated' flashCard)
             saveModel=(route-action 'saveModel')}}
       {{/each}}
     {{else}}
