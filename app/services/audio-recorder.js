@@ -6,19 +6,12 @@ const {
   }
 } = Ember;
 
-const ac = window.AudioContext || window.webkitAudioContext;
-const nav = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-
 export default Ember.Service.extend({
   hasAccess: false,
 
-  canRecord() {
-    return ac && nav;
-  },
-
   requestAccess() {
-    if(this.canRecord()) {
-      nav.getUserMedia({ audio: true }, ::this.onMediaSuccess, ::this.onMediaError);
+    if(navigator.getUserMedia) {
+      navigator.getUserMedia({ audio: true }, ::this.onMediaSuccess, ::this.onMediaError);
     }
   },
 
