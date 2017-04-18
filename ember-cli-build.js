@@ -35,6 +35,9 @@ module.exports = function(defaults) {
         'images/marker-shadow.png'
       ]
     },
+    'ember-cli-qunit': {
+      useLintTree: false
+    },
     dotEnv: {
       clientAllowedKeys: ['API_KEY', 'AUTH_DOMAIN', 'DATABASE_URL', 'STORAGE_BUCKET']
     }

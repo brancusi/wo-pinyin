@@ -1,19 +1,36 @@
 import Ember from 'ember';
 
+const {
+  RSVP: {
+    Promise
+  }
+} = Ember;
+
+const ac = window.AudioContext || window.webkitAudioContext;
+const nav = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
 export default Ember.Service.extend({
   hasAccess: false,
 
+  canRecord() {
+    return ac && nav;
+  },
+
   requestAccess() {
-    navigator.getUserMedia({ audio: true }, ::this.onMediaSuccess, ::this.onMediaError);
+    if(this.canRecord()) {
+      nav.getUserMedia({ audio: true }, ::this.onMediaSuccess, ::this.onMediaError);
+    }
   },
 
   onMediaSuccess(stream) {
-    this.set("hasAccess", true);
-    this.set("stream", stream);
+    if(!this.get("isDestroyed")) {
+      this.set("hasAccess", true);
+      this.set("stream", stream);
+    }
   },
 
   onMediaError(e) {
-    console.error('media error', e);
+    throw new Error("Could not start recording", e);
   },
 
   createRecorder() {

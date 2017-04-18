@@ -1,6 +1,6 @@
 import Ember from "ember";
 
-const { notEmpty, alias } = Ember.computed;
+const { notEmpty } = Ember.computed;
 
 export default Ember.Component.extend({
   classNames: ["row", "btn"],

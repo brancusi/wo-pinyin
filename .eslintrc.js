@@ -1,5 +1,6 @@
 module.exports = {
   root: true,
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaVersion: 6,
     sourceType: 'module'
@@ -9,5 +10,8 @@ module.exports = {
     browser: true
   },
   rules: {
+  },
+  globals: {
+    "RecordRTC": true
   }
 };

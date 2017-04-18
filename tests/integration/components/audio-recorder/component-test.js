@@ -12,14 +12,5 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{audio-recorder}}`);
 
-  assert.equal(this.$().text().trim(), '');
-
-  // Template block usage:
-  this.render(hbs`
-    {{#audio-recorder}}
-      template block text
-    {{/audio-recorder}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.equal(this.$().text().trim(), 'Push to record');
 });

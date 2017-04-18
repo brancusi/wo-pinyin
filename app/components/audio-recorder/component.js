@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import firebase from 'firebase';
 
 export default Ember.Component.extend({
   audioRecorder: Ember.inject.service(),

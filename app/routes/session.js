@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import firebase from 'firebase';
 import { v4 as uuid } from 'uuid';
+import moment from 'moment';
 
 export default Ember.Route.extend({
   setupController(controller, model) {
@@ -13,7 +14,7 @@ export default Ember.Route.extend({
 
   async model(params) {
     const record = await this.store.findRecord('lesson', params.id)
-      .catch(e => {
+      .catch(() => {
         return this.store
           .createRecord('lesson', {id:params.id, date:new Date()})
           .save();
@@ -34,7 +35,7 @@ export default Ember.Route.extend({
       const path = `audio/${id}.wav`;
       var audioRef = storageRef.child(path);
 
-      audioRef.put(blob).then(snapshot => {
+      audioRef.put(blob).then(() => {
         model.set("audioUrl", path);
         model.save();
       });
