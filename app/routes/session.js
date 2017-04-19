@@ -6,10 +6,11 @@ import moment from 'moment';
 export default Ember.Route.extend({
   setupController(controller, model) {
     const { record, sessionId } = model;
-    this._super(...arguments);
 
     controller.set('session', record);
     controller.set('sessionId', sessionId);
+
+    this._super(...arguments);
   },
 
   async model(params) {
@@ -47,6 +48,15 @@ export default Ember.Route.extend({
 
     saveModel(model) {
       model.save();
+    },
+
+    // @TODO: Not sure why this is failing.
+    async destroyModel(flashCard, lesson) {
+      await flashCard
+        .destroyRecord()
+        .catch(() => {});
+
+      await lesson.save();
     },
 
     async createFlashCard(lesson) {
