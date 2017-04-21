@@ -1,0 +1,14 @@
+<div class="col center flashCardContainer">
+  {{#if hasConversations}}
+    {{#each sortedConversations as |conversation index|}}
+      {{flash-card-group
+          model=conversation
+          onAudioCreated=onAudioCreated
+          createFlashCard=createFlashCard
+          destroyFlashCard=destroyFlashCard
+          saveModel=saveModel}}
+    {{/each}}
+  {{else}}
+    <h2>No conversations yet. Why not start one?</h2>
+  {{/if}}
+</div>

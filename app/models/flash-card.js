@@ -6,6 +6,7 @@ export default DS.Model.extend({
   english: DS.attr('string'),
   audioUrl: DS.attr('string'),
   ts: DS.attr('number'),
-
-  lesson: DS.belongsTo('lesson')
+  position: DS.attr('number'),
+  
+  conversation: DS.belongsTo('conversation')
 });

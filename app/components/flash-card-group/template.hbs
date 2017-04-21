@@ -1,0 +1,16 @@
+<div class="row">
+  {{#each model.flashCards as |flashCard|}}
+    {{flash-card
+        model=flashCard
+        total=cardCount
+        index=index
+        onAudioCreated=onAudioCreated
+        destroyFlashCard=(action destroyFlashCard model)
+        saveModel=saveModel}}
+  {{/each}}
+</div>
+
+{{ui/icon-button
+    label="Create"
+    leftIcon="add"
+    click=(action createFlashCard model)}}

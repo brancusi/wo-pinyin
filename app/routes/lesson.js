@@ -5,11 +5,11 @@ import moment from 'moment';
 
 export default Ember.Route.extend({
   setupController(controller, model) {
-    const { record, sessionId, twilioData } = model;
+    const { record, lessonId, twilioData } = model;
 
-    controller.set('session', record);
+    controller.set('lesson', record);
     controller.set('twilioData', twilioData);
-    controller.set('sessionId', sessionId);
+    controller.set('lessonId', lessonId);
 
     this._super(...arguments);
   },
@@ -28,7 +28,7 @@ export default Ember.Route.extend({
     return {
       record,
       twilioData,
-      sessionId: params.id
+      lessonId: params.id
     }
   },
 
@@ -55,20 +55,32 @@ export default Ember.Route.extend({
     },
 
     // @TODO: Not sure why this is failing.
-    async destroyModel(flashCard, lesson) {
+    async destroyFlashCard(conversation, flashCard) {
       await flashCard
         .destroyRecord()
         .catch(() => {});
 
-      await lesson.save();
+      if(conversation.get("isEmpty")) {
+        conversation.deleteRecord();
+      }
+
+      await conversation.save();
     },
 
-    async createFlashCard(lesson) {
+    async createConversation(lesson) {
       await this.store
-        .createRecord('flash-card', { lesson, ts:moment().valueOf() })
+        .createRecord('conversation', { lesson })
         .save();
 
       await lesson.save();
+    },
+
+    async createFlashCard(conversation) {
+      await this.store
+        .createRecord('flash-card', { conversation })
+        .save();
+
+      await conversation.save();
     }
   }
 });

@@ -1,6 +1,6 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
-  flashCards: DS.hasMany('flash-card'),
+  conversations: DS.hasMany('conversation'),
   date: DS.attr('date')
 });
