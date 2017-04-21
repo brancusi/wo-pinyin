@@ -5,15 +5,19 @@ import moment from 'moment';
 
 export default Ember.Route.extend({
   setupController(controller, model) {
-    const { record, sessionId } = model;
+    const { record, sessionId, twilioData } = model;
 
     controller.set('session', record);
+    controller.set('twilioData', twilioData);
     controller.set('sessionId', sessionId);
 
     this._super(...arguments);
   },
 
   async model(params) {
+    const twilioDataRes = await fetch("https://wt-brancusi-gmail_com-0.run.webtask.io/create-twilio-token");
+    const twilioData = await twilioDataRes.json();
+
     const record = await this.store.findRecord('lesson', params.id)
       .catch(() => {
         return this.store
@@ -23,6 +27,7 @@ export default Ember.Route.extend({
 
     return {
       record,
+      twilioData,
       sessionId: params.id
     }
   },
@@ -31,9 +36,8 @@ export default Ember.Route.extend({
     onAudioCreated(model, blob) {
       const app = firebase.app();
       var storageRef = app.storage().ref();
-      const id = uuid();
 
-      const path = `audio/${id}.wav`;
+      const path = `audio/${uuid()}.wav`;
       var audioRef = storageRef.child(path);
 
       audioRef.put(blob).then(() => {
