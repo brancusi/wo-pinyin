@@ -1,16 +1,31 @@
-<div class="row">
-  {{#each model.flashCards as |flashCard|}}
+<header class="conversation-header row">
+  <span class="index">
+    {{index}}.
+  </span>
+  {{one-way-input model.title
+      class='conversation-title'
+      placeholder='What\'s this conversation about...'
+      update=(action "handleUpdate" "title")
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"
+      spellcheck=false}}
+</header>
+<div class="row flash-card-container">
+  {{ui/icon-button
+      class="create-flash-card"
+      leftIcon="plus"
+      click=(action createFlashCard model 0)}}
+  {{#each sortedFlashCards as |flashCard index|}}
     {{flash-card
         model=flashCard
-        total=cardCount
-        index=index
+        index=(inc index)
         onAudioCreated=onAudioCreated
         destroyFlashCard=(action destroyFlashCard model)
         saveModel=saveModel}}
+    {{ui/icon-button
+        class="create-flash-card"
+        leftIcon="plus"
+        click=(action createFlashCard model (inc index))}}
   {{/each}}
 </div>
-
-{{ui/icon-button
-    label="Create"
-    leftIcon="add"
-    click=(action createFlashCard model)}}

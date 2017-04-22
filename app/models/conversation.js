@@ -1,12 +1,17 @@
 import DS from 'ember-data';
+import computed from 'ember-computed-decorators';
 
-const { empty } = Ember.computed;
+const { empty, filterBy } = Ember.computed;
 
 export default DS.Model.extend({
   title: DS.attr('string'),
   lesson: DS.belongsTo('lesson'),
-  position: DS.attr('number'),
+  ts: DS.attr('number'),
+  position: DS.attr('number', {defaultValue: 1}),
+
   flashCards: DS.hasMany('flash-card'),
 
-  isEmpty: empty("flashCards")
+  activeFlashCards: filterBy('flashCards', 'isDeleted', false),
+
+  isEmpty: empty("activeFlashCards")
 });

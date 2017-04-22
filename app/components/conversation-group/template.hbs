@@ -1,14 +1,19 @@
-<div class="col center flashCardContainer">
-  {{#if hasConversations}}
-    {{#each sortedConversations as |conversation index|}}
-      {{flash-card-group
-          model=conversation
-          onAudioCreated=onAudioCreated
-          createFlashCard=createFlashCard
-          destroyFlashCard=destroyFlashCard
-          saveModel=saveModel}}
-    {{/each}}
-  {{else}}
-    <h2>No conversations yet. Why not start one?</h2>
-  {{/if}}
+<div class="col center conversation-container">
+  {{ui/icon-button
+      class='create-conversation'
+      click=(action createConversation 0)
+      leftIcon="plus"}}
+  {{#each sortedConversations as |conversation index|}}
+    {{flash-card-group
+        model=conversation
+        index=(inc index)
+        onAudioCreated=onAudioCreated
+        createFlashCard=createFlashCard
+        destroyFlashCard=destroyFlashCard
+        saveModel=saveModel}}
+    {{ui/icon-button
+        class='create-conversation'
+        click=(action createConversation (inc index))
+        leftIcon="plus"}}
+  {{/each}}
 </div>

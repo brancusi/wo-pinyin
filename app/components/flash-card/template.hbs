@@ -1,6 +1,6 @@
 <header class="row">
   <div class="index">
-    {{position}}.
+    {{index}}.
   </div>
   <div class="stretch">
 
@@ -8,14 +8,15 @@
   <div class="ui-container">
     {{ui/icon-button
         label="X"
+        class='delete'
         click=(action destroyFlashCard model)}}
   </div>
 </header>
 
-<div class="row fieldsContainer">
+<div class="col fieldsContainer">
   <div class="col inputContainer">
-    <div class="title row">汉语</div>
     {{one-way-textarea model.chinese
+        placeholder='汉语...'
         update=(action "handleUpdate" "chinese")
         autocomplete="off"
         autocorrect="off"
@@ -24,8 +25,8 @@
   </div>
 
   <div class="col inputContainer">
-    <div class="title row">Pinyin</div>
     {{one-way-textarea model.pinyin
+        placeholder='Pinyin...'
         class="pinyinEditor"
         update=(action 'processChange')
         autocomplete="off"
@@ -35,8 +36,8 @@
   </div>
 
   <div class="col inputContainer">
-    <div class="title row">English</div>
     {{one-way-textarea model.english
+        placeholder='English...'
         update=(action "handleUpdate" "english")
         autocomplete="off"
         autocorrect="off"
@@ -45,16 +46,8 @@
   </div>
 </div>
 
-<hr>
-
 <div class="audioUiContainer row right">
-  {{audio-recorder
-      created=onAudioCreated}}
-
-  {{#if hasAudio}}
-    {{ui/icon-button
-        label="Play"
-        click=(action "play")
-        leftIcon="play"}}
-  {{/if}}
+  {{audio-recorder 
+      model=model
+      created=(action onAudioCreated model)}}
 </div>

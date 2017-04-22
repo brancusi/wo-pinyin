@@ -2,6 +2,7 @@ import Ember from 'ember';
 import firebase from 'firebase';
 import { v4 as uuid } from 'uuid';
 import moment from 'moment';
+import _ from 'lodash';
 
 export default Ember.Route.extend({
   setupController(controller, model) {
@@ -20,9 +21,14 @@ export default Ember.Route.extend({
 
     const record = await this.store.findRecord('lesson', params.id)
       .catch(() => {
-        return this.store
-          .createRecord('lesson', {id:params.id, date:new Date()})
-          .save();
+        const lesson = this.store.createRecord('lesson', {id:params.id, date:new Date()}),
+              conversation = this.store.createRecord('conversation', {lesson}),
+              flashCard = this.store.createRecord('flash-card', {conversation});
+
+        return lesson.save()
+          .then(lesson => conversation.save())
+          .then(conversation => flashCard.save())
+          .then(flashCard => lesson);
       });
 
     return {
@@ -30,6 +36,46 @@ export default Ember.Route.extend({
       twilioData,
       lessonId: params.id
     }
+  },
+
+  async createConversation(lesson, position = 0) {
+    const conversations = await lesson.get("conversations");
+
+    const sortedConversations = conversations.sortBy("position");
+
+    const prevCard = sortedConversations[position - 1];
+    const nextCard = sortedConversations[position];
+
+    const prev = Ember.isPresent(prevCard) ? prevCard.get("position") : undefined;
+    const next = Ember.isPresent(nextCard) ? nextCard.get("position") : undefined;
+
+    let newPosition;
+
+    if(prev === undefined && next !== undefined) {
+      newPosition = next/2;
+    }
+
+    if(prev !== undefined && next === undefined) {
+      newPosition = prev + 1;
+    }
+
+    if(prev !== undefined && next !== undefined) {
+      newPosition = (next - prev)/2 + prev;
+    }
+
+    if(prev === undefined && next === undefined) {
+      newPosition = 1;
+    }
+
+    const conversation = this.store
+      .createRecord('conversation', { lesson, position: newPosition });
+
+    const flashCard = this.store
+      .createRecord('flash-card', { conversation });
+
+    await conversation.save();
+    await flashCard.save();
+    await lesson.save();
   },
 
   actions: {
@@ -40,9 +86,9 @@ export default Ember.Route.extend({
       const path = `audio/${uuid()}.wav`;
       var audioRef = storageRef.child(path);
 
-      audioRef.put(blob).then(() => {
+      return audioRef.put(blob).then(() => {
         model.set("audioUrl", path);
-        model.save();
+        return model.save();
       });
     },
 
@@ -54,32 +100,54 @@ export default Ember.Route.extend({
       model.save();
     },
 
-    // @TODO: Not sure why this is failing.
     async destroyFlashCard(conversation, flashCard) {
-      await flashCard
-        .destroyRecord()
-        .catch(() => {});
+      flashCard.deleteRecord();
 
       if(conversation.get("isEmpty")) {
         conversation.deleteRecord();
       }
 
+      await flashCard.save();
       await conversation.save();
     },
 
-    async createConversation(lesson) {
-      await this.store
-        .createRecord('conversation', { lesson })
-        .save();
-
-      await lesson.save();
+    createConversation(lesson, position) {
+      this.createConversation(lesson, position);
     },
 
-    async createFlashCard(conversation) {
-      await this.store
-        .createRecord('flash-card', { conversation })
-        .save();
+    async createFlashCard(conversation, position) {
+      const flashCards = await conversation.get("flashCards");
 
+      const sortedFlashCards = flashCards.sortBy("position");
+
+      const leftCard = sortedFlashCards[position - 1];
+      const rightCard = sortedFlashCards[position];
+
+      const left = Ember.isPresent(leftCard) ? leftCard.get("position") : undefined;
+      const right = Ember.isPresent(rightCard) ? rightCard.get("position") : undefined;
+
+      let newPosition;
+
+      if(left === undefined && right !== undefined) {
+        newPosition = right/2;
+      }
+
+      if(left !== undefined && right === undefined) {
+        newPosition = left + 1;
+      }
+
+      if(left !== undefined && right !== undefined) {
+        newPosition = (right - left)/2 + left;
+      }
+
+      if(left === undefined && right === undefined) {
+        newPosition = 1;
+      }
+
+      const flashCard = this.store
+        .createRecord('flash-card', { conversation, position: newPosition });
+
+      await flashCard.save();
       await conversation.save();
     }
   }

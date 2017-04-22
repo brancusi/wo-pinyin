@@ -1,13 +1,13 @@
 {{navs/lesson-nav
     lessonId=lessonId
-    navigateHome=(route-action "navigateHome")
-    createConversation=(route-action "createConversation" lesson)}}
+    navigateHome=(route-action "navigateHome")}}
 
 {{conversation-group
+    createConversation=(route-action "createConversation" lesson)
     onAudioCreated=(route-action 'onAudioCreated')
     createFlashCard=(route-action 'createFlashCard')
     saveModel=(route-action 'saveModel')
     destroyFlashCard=(route-action 'destroyFlashCard')
     model=lesson.conversations}}
 
-{{communication/video-chat twilioData=twilioData}}
+<!-- {{communication/video-chat twilioData=twilioData}} -->
