@@ -1,25 +1,33 @@
-<div class="row content center">  
-  {{#if hasLeftIcon}}
-    <div class="iconContainer row">
-      {{fa-icon leftIcon}}
-    </div>
-  {{/if}}
+<div class="row stretch content center">
+  {{#if loading}}
+  <div class="icon-container stretch row spin-clockwise">
+    {{fa-icon 'spinner'}}
+  </div>
+  {{else}}
+    {{#if hasLeftIcon}}
+      <div class="icon-container stretch row">
+        {{fa-icon leftIcon}}
+      </div>
+    {{/if}}
 
-  {{#if (and hasLabel hasLeftIcon)}}
-    <div class="spacer"></div>
-  {{/if}}
+    {{#if (and hasLabel hasLeftIcon)}}
+      <div class="space"></div>
+    {{/if}}
 
-  {{#if hasLabel}}
-    <span class="label">{{label}}</span>
-  {{/if}}
+    {{#if hasLabel}}
+      <span class="label">{{label}}</span>
+    {{/if}}
 
-  {{#if (and hasLabel hasRightIcon)}}
-    <div class="spacer"></div>
-  {{/if}}
+    {{#if (and hasLabel hasRightIcon)}}
+      <div class="space"></div>
+    {{/if}}
 
-  {{#if hasRightIcon}}
-    <div class="iconContainer row">
-      {{fa-icon rightIcon}}
-    </div>
+    {{#if hasRightIcon}}
+      <div class="icon-container stretch row">
+        {{fa-icon rightIcon}}
+      </div>
+    {{/if}}
+
+
   {{/if}}
 </div>

@@ -1,3 +1,12 @@
 {{ui/icon-button
-    label="Push & hold to record"
+    loading=saving
+    disabled=saving
+    mouseDown=(action 'startRecording')
+    mouseUp=(action 'stopRecording')
     leftIcon="microphone"}}
+
+{{#if hasAudio}}
+  {{ui/icon-button
+      click=(action "play")
+      leftIcon="play"}}
+{{/if}}
