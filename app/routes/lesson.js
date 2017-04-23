@@ -1,8 +1,6 @@
 import Ember from 'ember';
 import firebase from 'firebase';
 import { v4 as uuid } from 'uuid';
-import moment from 'moment';
-import _ from 'lodash';
 
 export default Ember.Route.extend({
   setupController(controller, model) {
@@ -38,10 +36,10 @@ export default Ember.Route.extend({
           });
 
         return lesson.save()
-          .then(lesson => conversation.save())
-          .then(conversation => flashCard.save())
-          .then(flashCard => Ember.RSVP.all([chinese.save(), pinyin.save(), english.save()]))
-          .then(flashCard => lesson);
+          .then(() => conversation.save())
+          .then(() => flashCard.save())
+          .then(() => Ember.RSVP.all([chinese.save(), pinyin.save(), english.save()]))
+          .then(() => lesson);
       });
 
     return {
@@ -120,12 +118,8 @@ export default Ember.Route.extend({
     },
 
     saveModel(model) {
-      console.log(model);
       if(model.then !== undefined) {
-        model.then(res => {
-          console.log(res);
-          res.save()
-        });
+        model.then(res => res.save());
       } else {
         model.save();
       }

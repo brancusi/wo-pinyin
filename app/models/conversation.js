@@ -1,7 +1,7 @@
 import DS from 'ember-data';
-import computed from 'ember-computed-decorators';
+import Ember from 'ember';
 
-const { empty, filterBy } = Ember.computed;
+const { filterBy, empty } = Ember.computed;
 
 export default DS.Model.extend({
   title: DS.attr('string'),

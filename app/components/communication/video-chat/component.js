@@ -4,7 +4,7 @@ const Video = Twilio.Video;
 
 export default Ember.Component.extend({
   startVideo() {
-    const { token, identity } = this.get("twilioData");
+    const { token } = this.get("twilioData");
 
     Video.connect(token, {name: "my-room"})
       .then(room => {
@@ -15,8 +15,8 @@ export default Ember.Component.extend({
         room.on('participantConnected', ::this.participantConnected);
 
         room.on('participantDisconnected', ::this.participantDisconnected);
-        room.once('disconnected', error => room.participants.forEach(::this.participantDisconnected));
-      }, e => console.log(e));
+        room.once('disconnected', () => room.participants.forEach(::this.participantDisconnected));
+      });
   },
 
   attachTracks(tracks, container) {

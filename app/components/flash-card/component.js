@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import _ from 'lodash';
-import computed from 'ember-computed-decorators';
 
 const TONE_REGEX = /([aeiouAEIOU][1234])/g;
 
@@ -56,10 +55,6 @@ const TONE_MAPPING = {
   "U4": "Ù"
 };
 
-const {
-  computed: { notEmpty }
-} = Ember;
-
 export default Ember.Component.extend({
   classNames: ['card-2', 'stretch'],
 
@@ -88,7 +83,6 @@ export default Ember.Component.extend({
     },
 
     handleUpdate(model, str) {
-      console.log(model);
       model.set('text', str);
       this.get("saveModel")(model);
     }
