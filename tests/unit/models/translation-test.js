@@ -1,8 +1,8 @@
 import { moduleForModel, test } from 'ember-qunit';
 
-moduleForModel('lesson', 'Unit | Model | lesson', {
+moduleForModel('translation', 'Unit | Model | translation', {
   // Specify the other units that are required for this test.
-  needs: ['model:conversation']
+  needs: ['model:flash-card']
 });
 
 test('it exists', function(assert) {

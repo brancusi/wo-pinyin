@@ -1,7 +1,6 @@
 import Ember from 'ember';
-import computed from 'ember-computed-decorators';
 
-const { isPresent, computed: { alias, sort, gt } } = Ember;
+const { computed: { alias, sort, gt } } = Ember;
 
 export default Ember.Component.extend({
   sortAsc: ["position:asc"],

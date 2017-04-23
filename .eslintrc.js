@@ -12,6 +12,7 @@ module.exports = {
   rules: {
   },
   globals: {
-    "RecordRTC": true
+    "RecordRTC": true,
+    "Twilio": true
   }
 };

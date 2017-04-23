@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import _ from 'lodash';
-import computed from 'ember-computed-decorators';
 
 const TONE_REGEX = /([aeiouAEIOU][1234])/g;
 
@@ -56,10 +55,6 @@ const TONE_MAPPING = {
   "U4": "Ù"
 };
 
-const {
-  computed: { notEmpty }
-} = Ember;
-
 export default Ember.Component.extend({
   classNames: ['card-2', 'stretch'],
 
@@ -69,7 +64,7 @@ export default Ember.Component.extend({
   },
 
   actions: {
-    processChange(str) {
+    processChange(model, str) {
       const editor = this.$(".pinyinEditor")[0];
       let cursorPosition = editor.selectionStart;
       let newStr = str;
@@ -80,16 +75,16 @@ export default Ember.Component.extend({
         cursorPosition = cursorPosition - matches.length;
       }
 
-      this.set("model.pinyin", newStr);
+      model.set("text", newStr);
 
-      this.get("saveModel")(this.get("model"));
+      this.get("saveModel")(model);
 
       Ember.run.scheduleOnce('afterRender', this, this.setSelection, editor, cursorPosition, cursorPosition);
     },
 
-    handleUpdate(key, str) {
-      this.get("model").set(key, str);
-      this.get("saveModel")(this.get("model"));
+    handleUpdate(model, str) {
+      model.set('text', str);
+      this.get("saveModel")(model);
     }
   }
 });
