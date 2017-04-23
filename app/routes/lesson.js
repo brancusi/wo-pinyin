@@ -21,13 +21,26 @@ export default Ember.Route.extend({
 
     const record = await this.store.findRecord('lesson', params.id)
       .catch(() => {
-        const lesson = this.store.createRecord('lesson', {id:params.id, date:new Date()}),
-              conversation = this.store.createRecord('conversation', {lesson}),
-              flashCard = this.store.createRecord('flash-card', {conversation});
+
+        const chinese = this.store.createRecord('translation', { flashCard, lang: 'chinese' });
+        const pinyin = this.store.createRecord('translation', { flashCard, lang: 'pinyin' });
+        const english = this.store.createRecord('translation', { flashCard, lang: 'english' });
+
+        const lesson = this.store.createRecord('lesson', {id:params.id, date:new Date()});
+        const conversation = this.store.createRecord('conversation', {lesson});
+
+        const flashCard = this.store
+          .createRecord('flash-card', {
+            conversation,
+            chinese,
+            pinyin,
+            english
+          });
 
         return lesson.save()
           .then(lesson => conversation.save())
           .then(conversation => flashCard.save())
+          .then(flashCard => Ember.RSVP.all([chinese.save(), pinyin.save(), english.save()]))
           .then(flashCard => lesson);
       });
 
@@ -70,11 +83,21 @@ export default Ember.Route.extend({
     const conversation = this.store
       .createRecord('conversation', { lesson, position: newPosition });
 
+    const chinese = this.store.createRecord('translation', { flashCard, lang: 'chinese' });
+    const pinyin = this.store.createRecord('translation', { flashCard, lang: 'pinyin' });
+    const english = this.store.createRecord('translation', { flashCard, lang: 'english' });
+
     const flashCard = this.store
-      .createRecord('flash-card', { conversation });
+      .createRecord('flash-card', {
+        conversation,
+        chinese,
+        pinyin,
+        english
+      });
 
     await conversation.save();
     await flashCard.save();
+    await Ember.RSVP.all([chinese.save(), pinyin.save(), english.save()]);
     await lesson.save();
   },
 
@@ -97,17 +120,34 @@ export default Ember.Route.extend({
     },
 
     saveModel(model) {
-      model.save();
+      console.log(model);
+      if(model.then !== undefined) {
+        model.then(res => {
+          console.log(res);
+          res.save()
+        });
+      } else {
+        model.save();
+      }
     },
 
     async destroyFlashCard(conversation, flashCard) {
       flashCard.deleteRecord();
+
+      const chinese = await flashCard.get('chinese');
+      const pinyin = await flashCard.get('pinyin');
+      const english = await flashCard.get('english');
+
+      chinese.deleteRecord();
+      pinyin.deleteRecord();
+      english.deleteRecord();
 
       if(conversation.get("isEmpty")) {
         conversation.deleteRecord();
       }
 
       await flashCard.save();
+      await Ember.RSVP.all([chinese.save(), pinyin.save(), english.save()]);
       await conversation.save();
     },
 
@@ -144,10 +184,21 @@ export default Ember.Route.extend({
         newPosition = 1;
       }
 
+      const chinese = this.store.createRecord('translation', { flashCard, lang: 'chinese' });
+      const pinyin = this.store.createRecord('translation', { flashCard, lang: 'pinyin' });
+      const english = this.store.createRecord('translation', { flashCard, lang: 'english' });
+
       const flashCard = this.store
-        .createRecord('flash-card', { conversation, position: newPosition });
+        .createRecord('flash-card', {
+          conversation,
+          position: newPosition,
+          chinese,
+          pinyin,
+          english
+        });
 
       await flashCard.save();
+      await Ember.RSVP.all([chinese.save(), pinyin.save(), english.save()]);
       await conversation.save();
     }
   }

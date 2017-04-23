@@ -15,9 +15,9 @@
 
 <div class="col fieldsContainer">
   <div class="col inputContainer">
-    {{one-way-textarea model.chinese
+    {{one-way-textarea model.chinese.text
         placeholder='汉语...'
-        update=(action "handleUpdate" "chinese")
+        update=(action "handleUpdate" model.chinese)
         autocomplete="off"
         autocorrect="off"
         autocapitalize="off"
@@ -25,10 +25,10 @@
   </div>
 
   <div class="col inputContainer">
-    {{one-way-textarea model.pinyin
+    {{one-way-textarea model.pinyin.text
         placeholder='Pinyin...'
         class="pinyinEditor"
-        update=(action 'processChange')
+        update=(action 'processChange' model.pinyin)
         autocomplete="off"
         autocorrect="off"
         autocapitalize="off"
@@ -36,9 +36,9 @@
   </div>
 
   <div class="col inputContainer">
-    {{one-way-textarea model.english
+    {{one-way-textarea model.english.text
         placeholder='English...'
-        update=(action "handleUpdate" "english")
+        update=(action "handleUpdate" model.english)
         autocomplete="off"
         autocorrect="off"
         autocapitalize="off"
@@ -47,7 +47,7 @@
 </div>
 
 <div class="audioUiContainer row right">
-  {{audio-recorder 
+  {{audio-recorder
       model=model
       created=(action onAudioCreated model)}}
 </div>

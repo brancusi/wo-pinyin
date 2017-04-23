@@ -1,9 +1,10 @@
 {{ui/icon-button
+    class='record-button'
     loading=saving
     disabled=saving
     mouseDown=(action 'startRecording')
     mouseUp=(action 'stopRecording')
-    leftIcon="microphone"}}
+    leftIcon="circle"}}
 
 {{#if hasAudio}}
   {{ui/icon-button
