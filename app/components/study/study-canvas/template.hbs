@@ -1,0 +1,12 @@
+<div class="col">
+  <div class="row center">
+    {{component current.type model=current.flashCard onComplete=(action 'next')}}
+  </div>
+
+  <div class="row center ui-container">
+    {{ui/icon-button
+        click=(action "next")
+        label="skip"
+        rightIcon="arrow-right"}}
+  </div>
+</div>
