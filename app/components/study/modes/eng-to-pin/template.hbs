@@ -1,0 +1,22 @@
+<div class="col">
+  <div class="col content">
+    <span class="english">
+      {{model.english.text}}
+    </span>
+
+    {{inputs/pinyin-input currentAnswer
+        class='solution-field'
+        onReturn=(action 'submit')
+        update=(action "handleUpdate")}}
+  </div>
+
+  {{#if wasAnswered}}
+    <div class="row center status">
+      {{#if isCorrect}}
+        <span class="correct">Correct {{fa-icon 'thumbs-up'}}</span>
+      {{else}}
+        <span class="incorrect">That was incorrect</span>
+      {{/if}}
+    </div>
+  {{/if}}
+</div>

@@ -25,14 +25,9 @@
   </div>
 
   <div class="col inputContainer">
-    {{one-way-textarea model.pinyin.text
+    {{inputs/pinyin-input model.pinyin.text
         placeholder='Pinyin...'
-        class="pinyinEditor"
-        update=(action 'processChange' model.pinyin)
-        autocomplete="off"
-        autocorrect="off"
-        autocapitalize="off"
-        spellcheck=false}}
+        update=(action "handleUpdate" model.pinyin)}}
   </div>
 
   <div class="col inputContainer">
