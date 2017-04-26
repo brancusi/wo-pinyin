@@ -1,10 +1,12 @@
 import Ember from 'ember';
-
-const STRIP_PUNCTUATION = /[.,\/#!$%\^&\*;:{}=\-_?`~()]/g;
+import {
+  isCorrectAnswer
+} from 'wo-pinyin/utils/study-utils';
 
 export default Ember.Component.extend({
   classNames: ['row', 'card-2'],
   currentAnswer: '',
+  showingAnswer: false,
 
   didInsertElement() {
     this.$('textarea').focus();
@@ -28,26 +30,24 @@ export default Ember.Component.extend({
     this.set('wasAnswered', undefined);
     this.set('isCorrect', undefined);
     this.set('currentAnswer', '');
+    this.set('showingAnswer', false);
   },
 
   actions: {
     handleUpdate(str) {
       this.set('wasAnswered', false);
-      this.set("currentAnswer", str);
+      this.set('currentAnswer', str);
     },
 
     async submit() {
-      const pinyin = await this.get('model.pinyin');
+      const submission = this.get('currentAnswer');
+      const answer = await this.get('model.pinyin');
 
-      const answer = this.get('currentAnswer')
-        .replace(STRIP_PUNCTUATION, "")
-        .toLowerCase();
+      this.processAnswer(isCorrectAnswer(submission, answer.get('text')));
+    },
 
-      const solution = pinyin.get("text")
-        .replace(STRIP_PUNCTUATION, "")
-        .toLowerCase();
-
-      this.processAnswer(answer === solution);
+    showAnswer() {
+      this.set('showingAnswer', true);
     }
   }
 });

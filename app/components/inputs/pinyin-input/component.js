@@ -92,6 +92,8 @@ const PinyinInput = Ember.Component.extend({
   }
 });
 
-export default PinyinInput.reopenClass({
+PinyinInput.reopenClass({
   positionalParams: ['value']
 });
+
+export default PinyinInput;

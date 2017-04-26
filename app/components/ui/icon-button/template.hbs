@@ -1,11 +1,11 @@
-<div class="row stretch content center">
+<div class="row stretch center">
   {{#if loading}}
   <div class="icon-container stretch row spin-clockwise">
     {{fa-icon 'spinner'}}
   </div>
   {{else}}
     {{#if hasLeftIcon}}
-      <div class="icon-container stretch row">
+      <div class="icon-container center row">
         {{fa-icon leftIcon}}
       </div>
     {{/if}}
@@ -23,7 +23,7 @@
     {{/if}}
 
     {{#if hasRightIcon}}
-      <div class="icon-container stretch row">
+      <div class="icon-container center row">
         {{fa-icon rightIcon}}
       </div>
     {{/if}}

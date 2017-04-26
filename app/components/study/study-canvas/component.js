@@ -1,24 +1,26 @@
 import Ember from 'ember';
-
-const {
-  notEmpty
-} = Ember.computed;
+import computed from 'ember-computed-decorators';
+import _ from 'lodash';
 
 export default Ember.Component.extend({
-  hasFlashCards: notEmpty('flashCards'),
+  @computed('model.@each.{id}')
+  shuffledCards(collection) {
+    return _.shuffle(collection.toArray());
+  },
 
   didInsertElement() {
     this.setupNextStudyCard();
   },
 
   setupNextStudyCard() {
-    const flashCards = this.get('model').toArray();
+    const flashCards = this.get('shuffledCards');
     const current = this.get('current');
 
     let flashCard;
 
     if(Ember.isPresent(current)) {
       const currentIndex = flashCards.indexOf(current.flashCard);
+
       if(currentIndex + 1 > flashCards.length-1) {
         flashCard = flashCards[0];
       } else {

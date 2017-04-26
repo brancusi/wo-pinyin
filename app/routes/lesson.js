@@ -104,7 +104,7 @@ export default Ember.Route.extend({
       const app = firebase.app();
       var storageRef = app.storage().ref();
 
-      const path = `audio/${uuid()}.wav`;
+      const path = `audio/${uuid()}.webm`;
       var audioRef = storageRef.child(path);
 
       return audioRef.put(blob).then(() => {

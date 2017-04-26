@@ -1,13 +1,28 @@
 <div class="col">
   <div class="col content">
-    <span class="english">
-      {{model.english.text}}
-    </span>
+    <div class="row stretch center question-container">
+      <span class="english stretch">
+        {{model.english.text}}
+      </span>
+    </div>
 
     {{inputs/pinyin-input currentAnswer
         class='solution-field'
         onReturn=(action 'submit')
         update=(action "handleUpdate")}}
+  </div>
+
+  <div class="ui-container row center">
+    <div class="row center btn-container">
+      {{media/audio-player model=model.audioUrl class='audio-btn'}}
+    </div>
+    <div class="row center btn-container">
+      {{ui/icon-button
+          class='show-answer-btn'
+          click=(action (toggle "showingAnswer" this))
+          label="Show Answer"
+          rightIcon='info'}}
+    </div>
   </div>
 
   {{#if wasAnswered}}
@@ -19,4 +34,8 @@
       {{/if}}
     </div>
   {{/if}}
+
+  <div class="answer {{if showingAnswer 'showing'}}">
+    {{model.pinyin.text}}
+  </div>
 </div>
