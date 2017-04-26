@@ -2,12 +2,14 @@
   background: dope-blue
   margin-bottom: 1em
 
+.question-container
+  margin-bottom: 1em
+
 .content
   padding: 1em
 
 .english
   font-size: 1.3em
-  margin-bottom: 1em
   color: white
   height: 1.3em
 
@@ -33,3 +35,31 @@ textarea
 
   .correct
     color: dope-blue
+
+.ui-container
+  color: white
+  background: rgba(white, 0.2)
+  height: 4em
+  .btn
+    background: none
+  .btn-container
+    width: 50%
+    border-right: 1px dashed white
+  .btn-container:last-child
+    border-right: 0
+
+.answer
+  pointer-events: none
+  height: 0
+  background: dope-pink
+  opacity: 0
+  font-size: 1.4em
+  color: white
+  transition: all 0.2s ease-in-out
+  padding: 0 0.5em
+
+.answer.showing
+  height: auto
+  opacity: 1
+  padding: 1em
+  padding: 1em 0.5em

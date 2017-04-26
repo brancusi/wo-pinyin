@@ -7,10 +7,7 @@ moduleForComponent('study/modes/eng-to-pin', 'Integration | Component | study/mo
 
 test('it renders', function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
-
   this.render(hbs`{{study/modes/eng-to-pin}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.equal(this.$().text().trim(), 'Show Answer');
 });
